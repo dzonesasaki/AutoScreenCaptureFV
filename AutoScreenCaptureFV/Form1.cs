@@ -17,6 +17,9 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         private DateTime start_timer;
+        
+        private Bitmap bt;
+        private Size s;
 
         public Form1()
         {
@@ -37,6 +40,9 @@ namespace WindowsFormsApplication1
             numericUpDown2.Value = Convert.ToInt32(RegistryHelper.GetSetting("Settings", "Cleanup", "10080"));
 
             GetSettingIntoCheckbox("Settings", "RecycleBin", "1", checkBox2);
+            
+            s = Screen.PrimaryScreen.Bounds.Size;
+            bt = new Bitmap(s.Width, s.Height);
 
             // hide this button; it's useful only during debugging
             button4.Visible = false;
@@ -74,8 +80,10 @@ namespace WindowsFormsApplication1
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Bitmap bt;
-            bt = Get_screen();
+            //Bitmap bt;
+            //bt = Get_screen();
+            Graphics g = Graphics.FromImage(bt);
+            g.CopyFromScreen(0, 0, 0, 0, s);
             pictureBox1.Image = bt;
 
             start_timer = DateTime.Now;
